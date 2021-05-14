@@ -1,6 +1,11 @@
+import logging
+
 from rest_framework import serializers
 
 from orders.models import Order, Customer
+
+
+logger = logging.getLogger(__name__)
 
 
 class CustomerSerializer(serializers.HyperlinkedModelSerializer):
@@ -24,6 +29,11 @@ class OrderSerializer(serializers.HyperlinkedModelSerializer):
         status_with_fixed_order = [x[0] for x in Order.ORDER_STATUS if x[0] not in status_can_update_order]
         instance.status = validated_data.get('status', instance.status)
         if instance.status in status_with_fixed_order:
+            logger.warning(f'Update cannot be performed for status {instance.status}', extra=dict(
+                type='update_warning',
+                status=instance.status,
+                data=validated_data,
+            ))
             return instance
 
         instance.flavor = validated_data.get('flavor', instance.flavor)
@@ -31,5 +41,10 @@ class OrderSerializer(serializers.HyperlinkedModelSerializer):
         instance.size = validated_data.get('size', instance.size)
 
         instance.save()
+        logger.info(f'Order updated', extra=dict(
+            type='update_success',
+            status=instance.status,
+            data=validated_data,
+        ))
 
         return instance
