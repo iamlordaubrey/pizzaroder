@@ -51,17 +51,17 @@ class OrderSerializer(serializers.HyperlinkedModelSerializer):
         status_can_update_order = ['SUBMITTED']
         status_with_fixed_order = [x[0] for x in Order.ORDER_STATUS if x[0] not in status_can_update_order]
         instance.status = validated_data.get('status', instance.status)
-        if instance.status in status_with_fixed_order:
-            logger.warning(f'Update cannot be performed for status {instance.status}', extra=dict(
+
+        if instance.status not in status_with_fixed_order:
+            instance.flavor = validated_data.get('flavor', instance.flavor)
+            instance.count = validated_data.get('count', instance.count)
+            instance.size = validated_data.get('size', instance.size)
+        else:
+            logger.warning(f'Fields cannot be updated for status {instance.status}', extra=dict(
                 type='update_warning',
                 status=instance.status,
                 data=validated_data,
             ))
-            return instance
-
-        instance.flavor = validated_data.get('flavor', instance.flavor)
-        instance.count = validated_data.get('count', instance.count)
-        instance.size = validated_data.get('size', instance.size)
 
         instance.save()
         logger.info(f'Order updated', extra=dict(
