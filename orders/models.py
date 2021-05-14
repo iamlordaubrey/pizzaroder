@@ -19,12 +19,13 @@ class Order(models.Model):
         ('CANCELLED', 'Cancelled'),
     )
     PIZZA_SIZE = (
+        (None, 'Select a size'),
         ('SMALL', 'Small'),
         ('MEDIUM', 'Medium'),
         ('LARGE', 'Large'),
     )
     FLAVOR = (
-        ('', 'Select a flavor'),
+        (None, 'Select a flavor'),
         ('MARGARITA', 'Margarita'),
         ('MARINARA', 'Marinara'),
         ('SALAMI', 'Salami'),

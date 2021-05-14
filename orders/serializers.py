@@ -19,10 +19,33 @@ class CustomerSerializer(serializers.HyperlinkedModelSerializer):
 class OrderSerializer(serializers.HyperlinkedModelSerializer):
     customer = CustomerSerializer()
     url = serializers.HyperlinkedIdentityField(view_name='orders:order-detail')
+    extra_kwargs = {'size': {'required': True}}
 
     class Meta:
         model = Order
         fields = '__all__'
+
+    def validate(self, data):
+        """
+        Check size and flavor have been selected
+        :param data:
+        :return:
+        """
+        size = data.get('size')
+        flavor = data.get('flavor')
+        if size is None:
+            raise serializers.ValidationError('Please select a size')
+        if flavor is None:
+            raise serializers.ValidationError('Please select a flavor')
+
+        return data
+
+    def create(self, validated_data):
+        customer_data = validated_data.pop('customer')
+        customer, _ = Customer.objects.get_or_create(**customer_data)
+
+        order = Order.objects.create(customer=customer, **validated_data)
+        return order
 
     def update(self, instance, validated_data):
         status_can_update_order = ['SUBMITTED']
