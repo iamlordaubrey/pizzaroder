@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, filters
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
@@ -12,6 +12,8 @@ class OrderViewSet(viewsets.ModelViewSet):
     """
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ['status', 'customer__first_name', 'customer__last_name']
 
     @action(detail=False)
     def status_list(self, request):
