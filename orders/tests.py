@@ -60,7 +60,7 @@ class GetOrderTestCase(TestCase):
         response = self.client.get(orders_url)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertContains(response, 'status', count=2)
+        self.assertContains(response, 'status', count=3)
 
     def test_get_one_order(self):
         order_url = reverse('orders:order-detail', args=[self.order1.id])
