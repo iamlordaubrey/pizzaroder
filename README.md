@@ -1,19 +1,19 @@
-### PizzaRoder
+## PizzaRoder
 A pizza ordering service implemented using the Django Rest Framework
 
 &nbsp;
 
-##### Endpoints
+#### Endpoints
 Making use of ViewSets handles our endpoints for us
 
-| HTTP verbs    | Customer URL      | Order URL     |
-| ---           | ---               | ---           |
-| GET           | /customers        | /orders       |
-|               | /customers/\<id>  | /orders/\<id> |
+| HTTP verbs                | Customer URL      | Order URL     |
+| ---                       | ---               | ---           |
+| GET all/POST              | /customers        | /orders       |
+| GET one/PUT/PATCH/DELETE  | /customers/\<id>  | /orders/\<id> |
 
 &nbsp;
 
-##### Run
+#### Run
 ###### Local
 To run locally, follow the steps:
 - `create a postgres database`
@@ -50,7 +50,13 @@ The app can be accessed using the browsable api at `localhost:8000`
 
 &nbsp;
 
-##### Filter
+###### Tests
+To run tests:
+`python manage.py test`
+
+&nbsp;
+
+#### Filter
 To filter by status or customer, using `status=delivered` and `customer=Johnny`
 
 Status => http://localhost:8000/orders/?search=delivered
