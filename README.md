@@ -3,6 +3,7 @@ A pizza ordering service implemented using the Django Rest Framework
 
 
 ##### Endpoints
+Making use of ViewSets handles our endpoints for us
 
 | HTTP verbs    | Customer URL      | Order URL     |
 | ---           | ---               | ---           |
@@ -18,6 +19,8 @@ To run locally, follow the steps:
 - `python3 -m venv <environment name>`
 - `source <environment name>/bin/activate`
 - `pip install -r requirements.txt`
+- `python manage.py makemigrations`
+- `python manage.py migrate`
 - `python manage.py runserver`
 
 The app can be accessed using the browsable api at `localhost:8000`
