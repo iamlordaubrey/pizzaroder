@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -84,12 +84,12 @@ WSGI_APPLICATION = 'pizcore.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'pizzaorderdb',
-        'USER': 'dbadmin',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': os.environ.get('SQL_ENGINE', 'django.db.backends.postgresql_psycopg2'),
+        'NAME': os.environ.get('SQL_DBNAME'),
+        'USER': os.environ.get('SQL_DBUSER'),
+        'PASSWORD': os.environ.get('SQL_DBPASSWORD'),
+        'HOST': os.environ.get('SQL_DBHOST', 'localhost'),
+        'PORT': os.environ.get('SQL_PORT', 5432),
     }
 }
 
